@@ -6,7 +6,7 @@
 }
 
 body{
-    background:url(../assets/img/noise-texture.png),rgb(21,21,31);
+    background:url(../img/noise-texture.png),rgb(21,21,31);
     background-repeat:repeat;
 }
 body div{
