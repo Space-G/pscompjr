@@ -1,0 +1,66 @@
+*{
+    margin:0px;
+    padding:0px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+body{
+    background:url(../assets/img/noise-texture.png),rgba(21,21,31);
+    background-repeat:repeat;
+}
+body div{
+    padding: 4.5vw;
+}
+
+#nome{
+    position: static;
+    text-align: center;
+    font-size: 4em;
+}
+
+#intro{
+    position: static;
+    padding-top: 0px;
+    text-align: justify;
+    text-justify: inter-word;
+    font-size: 1.25em;
+    text-indent: 4em;
+}
+
+#camuflado{
+    padding-top: 10vh;
+    font-size: 0.5em;
+}
+
+.break{
+	padding-top: 0px;
+	padding-bottom: 0px;
+    height: 1vh;
+	border-bottom: 2px solid rgb(31,31,51);
+}
+
+.list p{
+    text-indent: 0em;
+    padding-bottom: 0.5em;
+}
+
+.title{
+    text-indent: 0em;
+    font-size: 2.25em;
+    text-align: center;
+}
+
+.comment_img{
+    margin-right:5em;
+    width:10vh;
+    height:10vh;
+    object-fit:cover;
+    border-radius:62.5px;
+	max-width:125px;
+	max-height:125px;
+}
+
+.comment_text{
+    text-justify: inter-words;
+}
