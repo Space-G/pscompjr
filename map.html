@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>Ações Afirmativas</title>
+		<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		#map {
+			height: 100%;
+			z-index: 0;
+		}
+		.filterMenu {
+			background-color: rgb(255,255,255);
+			border: 2px solid #fff;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px rgba(0,0,0,.3);
+			cursor: pointer;
+			margin: 10px;
+			color: rgb(25,25,25);
+			font-family: Roboto,Arial,sans-serif;
+			font-size: 11px;
+			padding: 8px;
+			position: fixed;
+			z-index: 1;
+		}
+		.filterMenu:hover {
+			background-color: #f1f1f1;
+		}
+		.dropdown-content {
+			background-color: rgb(255,255,255);
+			border: 2px solid #fff;
+			border-radius: 2px;
+			box-shadow: 0 2px 2px rgba(0,0,0,.3);
+			cursor: pointer;
+			margin-left: -10px;
+			margin-top: 5px;
+			margin-right: -10px;
+			color: rgb(25,25,25);
+			font-family: Roboto,Arial,sans-serif;
+			font-size: 11px;
+			padding: 0px;
+			display: none;
+			position: absolute;
+			z-index: 1;
+			overflow-y: auto;
+			height: 80vh;
+			max-height: 610px;
+		}
+		.dropdown-content opcao, .dropdown-content title {
+			display: block;
+			width: 156px;
+			text-align: left;
+			color: black;
+			padding: 0px;
+		}
+		.dropdown-content opcao:hover {
+			background-color: #f1f1f1;
+		}
+		.dropdown-content opcao:active {
+			background-color: #e6e6e6;
+		}
+		.filterMenu:hover .dropdown-content {
+			display: block;
+		}
+		</style>
+
+		<script type="text/javascript">
+			function checar(nome_elemento, opcao_a_ser_checada){
+				elementos=document.getElementsByName(nome_elemento);
+				elementos[opcao_a_ser_checada].checked=true;//!(elementos[opcao_a_ser_checada].checked);
+				updateMap();
+			}
+			
+			function checarBox(nome_elemento){
+				elemento=document.getElementById(nome_elemento);
+				elemento.checked=!(elemento.checked);
+				updateMap();
+			}
+		</script>
+		
+		<div class="filterMenu">
+			Filtros
+			<div class="dropdown-content">
+				<title>Abrangência:</title>
+				<opcao onclick="checar ('abrangencia', 0)"><input type="radio" name="abrangencia" value="true" checked="checked">Todas</opcao>
+				<opcao onclick="checar ('abrangencia', 1)"><input type="radio" name="abrangencia" value="'distrital'">Distrital</opcao>
+				<opcao onclick="checar ('abrangencia', 2)"><input type="radio" name="abrangencia" value="'municipal'">Municipal</opcao>
+				<opcao onclick="checar ('abrangencia', 3)"><input type="radio" name="abrangencia" value="'estadual'">Estadual</opcao>
+				<opcao onclick="checar ('abrangencia', 4)"><input type="radio" name="abrangencia" value="'federal'">Federal</opcao>
+				<opcao onclick="checar ('abrangencia', 5)"><input type="radio" name="abrangencia" value="'nacional'">Nacional</opcao>
+				<br>
+				<title>Público alvo:</title>
+				<opcao onclick="checar ('alvo', 0)"><input type="radio" name="alvo" value="true" checked="checked">Todas</opcao>
+				<opcao onclick="checar ('alvo', 1)"><input type="radio" name="alvo" value="'Afrodescendentes'">Afrodescendentes</opcao>
+				<opcao onclick="checar ('alvo', 2)"><input type="radio" name="alvo" value="'Negros'">Negros</opcao>
+				<opcao onclick="checar ('alvo', 3)"><input type="radio" name="alvo" value="'Afro-brasileiros'">Afro-brasileiros</opcao>
+				<opcao onclick="checar ('alvo', 4)"><input type="radio" name="alvo" value="'Descendentes afro'">Descendentes afro</opcao>
+				<opcao onclick="checar ('alvo', 5)"><input type="radio" name="alvo" value="'Negros e pardos'">Negros e pardos</opcao>
+				<opcao onclick="checar ('alvo', 6)"><input type="radio" name="alvo" value="'Negros e afrodescendentes'">Negros e afrodescendentes</opcao>
+				<opcao onclick="checar ('alvo', 7)"><input type="radio" name="alvo" value="'Pretos e pardos'">Pretos e pardos</opcao>
+				<br>
+				<title>Distribuição dos percentuais:</title>
+				<opcao onclick="checar ('percentuais', 0)"><input type="radio" name="percentuais" value="true" checked="checked">Todas</opcao>
+				<opcao onclick="checar ('percentuais', 1)"><input type="radio" name="percentuais" value="'5'">5%</opcao>
+				<opcao onclick="checar ('percentuais', 2)"><input type="radio" name="percentuais" value="'10'">10%</opcao>
+				<opcao onclick="checar ('percentuais', 3)"><input type="radio" name="percentuais" value="'12'">12%</opcao>
+				<opcao onclick="checar ('percentuais', 4)"><input type="radio" name="percentuais" value="'15'">15%</opcao>
+				<opcao onclick="checar ('percentuais', 5)"><input type="radio" name="percentuais" value="'20'">20%</opcao>
+				<opcao onclick="checar ('percentuais', 6)"><input type="radio" name="percentuais" value="'25'">25%</opcao>
+				<opcao onclick="checar ('percentuais', 7)"><input type="radio" name="percentuais" value="'30'">30%</opcao>
+				<opcao onclick="checar ('percentuais', 8)"><input type="radio" name="percentuais" value="'44'">44%</opcao>
+				<opcao onclick="checar ('percentuais', 9)"><input type="radio" name="percentuais" value="'proporcional'">Proporcional</opcao>
+				<opcao onclick="checar ('percentuais', 10)"><input type="radio" name="percentuais" value="'metas percentuais'">Metas percentuais</opcao>
+				<br>
+				<opcao onclick="checarBox('comissaoVer')"><input type="checkbox" name="comissaoVer" id="comissaoVer" onclick="checarBox('comissaoVer')">Comissão de Verificação</opcao>
+				<opcao onclick="checarBox('cargoComissionado')"><input type="checkbox" name="cargoComissionado" id="cargoComissionado" onclick="checarBox('cargoComissionado')">Cargo comissionado</opcao>
+			</div>
+		</div>
+		
+				
+	</head>
+	<body>
+
+		<div id="map"></div>
+		<script type="text/javascript">
+
+			var map;
+			var layer;
+			var tableId = '1XCWNnN4fo6Oio9MX-_V1PyilMlAAidd_TmmkvRLN'
+			var locationColumn = '\'local\''
+			var markerColumn = '\'marker\''
+
+
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: -15.4647, lng: -47.5547},
+					zoom: 5,
+					mapTypeControl: false,
+					streetViewControl: false,
+					fullscreenControl: false
+				});
+				
+				layer = new google.maps.FusionTablesLayer({
+					query: {
+						select: locationColumn,
+						from: tableId
+					},
+					//por algum motivo completamente desconhecido, apenas esses valores funcionam:
+					options: {
+						styleId: 2,
+						templateId: 2
+					}
+					//
+				});
+
+				layer.setMap(map);
+
+
+			}
+			function updateMap(){
+			
+			abrangencia_todas=document.getElementsByName("abrangencia");
+				for(var i=0;i < abrangencia_todas.length;i++){
+					if (abrangencia_todas[i].checked){
+						abrangencia = abrangencia_todas[i].value;
+					}
+				}
+				if (abrangencia == "true"){
+					abrangencia="";
+				}
+				else{
+					abrangencia="'abrangência' = " + abrangencia + " AND ";
+				}
+				
+				comissaoVer_todas=document.getElementById("comissaoVer")
+				if (comissaoVer_todas.checked == true){
+					comissaoVer="'Sim'";
+				}
+				else{
+					comissaoVer="'Não'";
+				}
+
+				cargoComissionado="";
+				if (!document.getElementById("cargoComissionado").checked){
+					cargoComissionado=",'Não'";
+				}
+
+				alvo_todos=document.getElementsByName("alvo");
+				for(var i=0;i < alvo_todos.length;i++){
+					if (alvo_todos[i].checked){
+						alvo = alvo_todos[i].value;
+					}
+				}
+				if (alvo == "true"){
+					alvo="";
+				}
+				else{
+					alvo=" AND 'público alvo' = " + alvo;
+				}
+
+				percentual_todos=document.getElementsByName("percentuais");
+				for(var i=0;i < percentual_todos.length;i++){
+					if (percentual_todos[i].checked){
+						percentuais = percentual_todos[i].value;
+					}
+				}
+				if (percentuais == "true"){
+					percentuais="";
+				}
+				else{
+					percentuais=" AND 'Distribuição dos percentuais' = " + percentuais;
+				}
+
+				filtros=abrangencia + "'Comissão de Verificação' = " + comissaoVer + " AND 'Cargo Comissionado' IN ('Sim'" + cargoComissionado + ")" + alvo + percentuais;
+				
+				layer.setOptions({
+					query: {
+						select: locationColumn,
+						from: tableId,
+						where: filtros
+					}
+				})
+			}
+
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsyY4pvWt6itmYNCTr2l_aeMORM56zrNY&callback=initMap">
+		</script>
+	</body>
+</html>
+
+<!--
+ __________________ 
+< Versão 20171114b >
+ ------------------ 
+      \   ^__^
+       \  (oo)\_______
+          (__)\       )\/\
+              ||----w |
+              ||     ||
+-->
